@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:pod_player/pod_player.dart';
 
-class PlayerPage extends StatefulWidget {
+class PodPlayerPage extends StatefulWidget {
   final String url;
 
-  const PlayerPage({super.key, required this.url});
+  const PodPlayerPage({super.key, required this.url});
 
   @override
-  State<PlayerPage> createState() => _PlayerPageState();
+  State<PodPlayerPage> createState() => _PodPlayerPageState();
 }
 
-class _PlayerPageState extends State<PlayerPage> {
-  late final PodPlayerController controller;
+class _PodPlayerPageState extends State<PodPlayerPage> {
+  late final PodPlayerController _controller;
 
   @override
   void initState() {
     super.initState();
-    controller = PodPlayerController(
+    _controller = PodPlayerController(
       playVideoFrom: PlayVideoFrom.youtube(widget.url),
     )..initialise();
   }
 
   @override
   void dispose() {
-    controller.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -31,13 +31,13 @@ class _PlayerPageState extends State<PlayerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Player page"),
+        title: const Text("Pod Player"),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          PodVideoPlayer(controller: controller),
+          PodVideoPlayer(controller: _controller),
         ],
       ),
     );

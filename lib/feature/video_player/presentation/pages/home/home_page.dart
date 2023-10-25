@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tdd_test/feature/video_player/presentation/pages/video_player/video_player_page.dart';
 
-import '../player/player_page.dart';
+import '../pod_player/pod_player_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Home page"),
+        title: const Text("Home"),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -41,30 +42,67 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           const SizedBox(height: 20),
-          FilledButton(
-            onPressed: () {
-              if (inputUrl.isNotEmpty) {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PlayerPage(url: inputUrl),
-                    ));
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              // pod_player
+              FilledButton(
+                onPressed: () {
+                  if (inputUrl.isNotEmpty) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PodPlayerPage(url: inputUrl),
+                        ));
 
-                controller.clear();
-              }
-            },
-            style: ButtonStyle(
-              backgroundColor: const MaterialStatePropertyAll(Colors.blue),
-              shape: MaterialStatePropertyAll(
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                    controller.clear();
+                  }
+                },
+                style: ButtonStyle(
+                  backgroundColor: const MaterialStatePropertyAll(Colors.blue),
+                  shape: MaterialStatePropertyAll(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16)),
+                  ),
+                  fixedSize: MaterialStatePropertyAll(
+                      Size(MediaQuery.of(context).size.width / 3, 50)),
+                ),
+                child: const Text(
+                  "Pod player",
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
-              fixedSize: MaterialStatePropertyAll(
-                  Size(MediaQuery.of(context).size.width / 2, 50)),
-            ),
-            child: const Text(
-              "Play",
-              style: TextStyle(color: Colors.white),
-            ),
+
+              // video_player
+              FilledButton(
+                onPressed: () {
+                  if (inputUrl.isNotEmpty) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => VideoPlayerPage(url: inputUrl),
+                        ));
+
+                    controller.clear();
+                  }
+                },
+                style: ButtonStyle(
+                  backgroundColor: const MaterialStatePropertyAll(Colors.blue),
+                  shape: MaterialStatePropertyAll(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16)),
+                  ),
+                  fixedSize: MaterialStatePropertyAll(
+                      Size(MediaQuery.of(context).size.width / 3, 50)),
+                ),
+                child: const Text(
+                  "Video player",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
           ),
         ],
       ),
