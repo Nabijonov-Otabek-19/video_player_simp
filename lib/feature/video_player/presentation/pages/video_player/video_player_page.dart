@@ -27,7 +27,9 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
   void initState() {
     super.initState();
 
-    getVideoQualityUrlsFromYoutube(widget.url, false).then((urls) {
+    init();
+
+    /* getVideoQualityUrlsFromYoutube(widget.url, false).then((urls) {
       getUrlFromVideoQualityUrls(
         qualityList: const MyPlayerConfig().videoQualityPriority,
         videoUrls: urls,
@@ -38,10 +40,10 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
           ..setLooping(true)
           ..play();
       });
-    });
+    });*/
 
     /*_chewieController = ChewieController(
-      videoPlayerController: _controller,
+      videoPlayerController: _controller!,
       autoPlay: true,
       looping: true,
     );*/
@@ -71,11 +73,32 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
         child: _controller != null
             ? AspectRatio(
                 aspectRatio: _controller!.value.aspectRatio,
-                child: VideoPlayer(_controller!),
+                child: Chewie(controller: _chewieController),
               )
             : const CircularProgressIndicator(),
       ),
     );
+  }
+
+  void init() async {
+    await getVideoQualityUrlsFromYoutube(widget.url, false).then((urls) {
+      getUrlFromVideoQualityUrls(
+        qualityList: const MyPlayerConfig().videoQualityPriority,
+        videoUrls: urls,
+      ).then((url) {
+        _controller = VideoPlayerController.networkUrl(Uri.parse(url))
+          ..addListener(() => setState(() {}))
+          ..initialize().then((value) => setState(() {}))
+          ..setLooping(true)
+          ..play();
+
+        _chewieController = ChewieController(
+          videoPlayerController: _controller!,
+          autoPlay: true,
+          looping: true,
+        );
+      });
+    });
   }
 
   Future<List<VideoQualityUrls>> getVideoQualityUrlsFromYoutube(
